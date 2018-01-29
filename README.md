@@ -23,15 +23,15 @@ import "github.com/shferreira/transformer"
 The `JSONParser` parses JSON objects. It doesn't understand arrays, though.
 
 ```go
-data := `{ "response": { "id": 12, "data": { "value": "x" }}}`
-from := `{ "response": { "id": "{{id}}", "data": { "value": "{{value}}" }}}`
-to := `<response id="{{.id}}"><value>{{.value}}</value></response>`
+data := `{ "id": 12, "value": "x" }`
+from := `{ "id": "{{id}}", "value": "{{value}}" }`
+to := `<data id="{{.id}}">{{.value}}</data>`
 
 transformed, err := transformer.Transform(data, from, to, transformer.JSONParser)
 ```
 
 ```xml
-<response id="12"><value>x</value></response>
+<data id="12">x</data>
 ```
 
 ### From XML to any format
@@ -39,15 +39,15 @@ transformed, err := transformer.Transform(data, from, to, transformer.JSONParser
 Likewise, the `XMLParser` understand XML values and attributes. It doesn't understand namespaces.
 
 ```go
-data := `<response id="12"><value>x</value></response>`
-from := `<response id="{{id}}"><value>{{value}}</value></response>`
-to := `{ "response": { "id": {{.id}}, "data": { "value": "{{.value}}" }}}`
+data := `<data id="12">x</response>`
+from := `<data id="{{id}}">{{value}}</response>`
+to := `{ "id": {{.id}}, "value": "{{.value}}" }`
 
 transformed, err := transformer.Transform(data, from, to, transformer.XMLParser)
 ```
 
 ```js
-{ "response": { "id": 12, "data": { "value": "x" }}}
+{ "id": 12, "value": "x" }
 ```
 
 # License
